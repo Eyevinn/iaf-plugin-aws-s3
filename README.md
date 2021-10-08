@@ -31,13 +31,13 @@ fileWatcher.onAdd(awsUploader.onFileAdd);
 Default plugin export. This class is plug-and-play with the Ingest Application Framework, as described in the previous section.
 
 ### Methods
-`constructor(mediaConvertEndpoint: string, awsRegion: string, ingestBucket: string, outputBucket: string, roleArn:string, playlistName: string, encodeParams: string, logger: winston.Logger)`
+`constructor(s3Bucket: string, logger: winston.Logger)`
 
 Creates a new `AWSUploadModule` object. You need to provide the unique part your mediaconvert endpoint URL, which AWS region it is running in, as well as the name of your ingest and output buckets. You will also need to provide a role ARN, as well as the base name of the generated playlist. A winston logger is also needed. These parameters are used to initialize the sub-modules.
 
 `onFileAdd = (filePath: string, readStream: Readable)`.
 
-Method that is executed when a file is added to the directory being watched. `filePath` is the full path to the added file, and `readStream` is a `Readable` stream of the file data. Any file watcher plugins are *required* to provide these. The method uploads the file to the `ingestBucket` specified in the constructor, and dispatches a transcoding job to the MediaConvert endpoint once the upload is completed.
+Method that is executed when a file is added to the directory being watched. `filePath` is the full path to the added file, and `readStream` is a `Readable` stream of the file data. Any file watcher plugins are *required* to provide these. The method uploads the file to the `s3Bucket` specified in the constructor.
 
 ## `S3Uploader`
 Sub-module that handles uploading files to ingest S3 bucket. It's built on top of `@aws-sdk/lib-storage` in order to upload large files, which is essential for video.
@@ -45,11 +45,11 @@ Sub-module that handles uploading files to ingest S3 bucket. It's built on top o
 ### Methods
 `constructor(destination: string, logger: winston.Logger)`
 
-Instantiates a new `S3Uploader`. `destination` is the name of the ingest bucket (the same as `ingestBucket` in the `AWSUploadModule` constructor). `logger` is injected into the object, in order to avoid multiple logger objects.
+Instantiates a new `S3Uploader`. `destination` is the name of the S3 bucket (the same as `s3Bucket` in the `AWSUploadModule` constructor). `logger` is injected into the object, in order to avoid multiple logger objects.
 
 `async upload(fileStream: Readable, fileName: string)`
 
-Uploads a file to S3. The file data should be provided in the form of a `Readable` stream for performance reasons. `filename` will also be the key used in the S3 bucket.
+Uploads a file to S3. The file data should be provided in the form of a `Readable` stream for performance reasons. `fileName` will also be the key used in the S3 bucket.
 
 # [Contributing](CONTRIBUTING.md)
 

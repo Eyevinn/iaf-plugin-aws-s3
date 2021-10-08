@@ -9,11 +9,8 @@ export interface IafUploadModule {
 
 export interface Uploader {
     destination: string;
-    outputDestination: string;
-    outputFiles: {};
     logger: winston.Logger;
     upload(fileStream: Readable, fileName: string)
-    watcher(fileName: string): {};
 }
 
 export interface TranscodeDispatcher {
