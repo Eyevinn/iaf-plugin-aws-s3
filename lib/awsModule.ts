@@ -3,7 +3,6 @@ import * as path from 'path'
 import { IafUploadModule } from './types/interfaces'
 import { S3Uploader } from "./s3Uploader";
 import { Readable } from "stream";
-import { nanoid } from "nanoid";
 
 export class AwsUploadModule implements IafUploadModule {
   logger: winston.Logger;
