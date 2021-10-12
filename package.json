@@ -23,8 +23,7 @@
   ],
   "keywords": [
     "aws",
-    "mediaconvert",
-    "ingest",
+    "upload",
     "plugin"
   ],
   "license": "MIT",
@@ -42,7 +41,6 @@
     "nanoid": "^3.1.29"
   },
   "dependencies": {
-    "@aws-sdk/client-mediaconvert": "^3.26.0",
     "@aws-sdk/client-s3": "^3.26.0",
     "@aws-sdk/lib-storage": "^3.27.0",
     "winston": "^3.3.3"

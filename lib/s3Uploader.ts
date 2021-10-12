@@ -24,10 +24,11 @@ export class S3Uploader implements Uploader {
    * @param fileName the name of the uploaded file (this will be the S3 key)
    * @returns status report from the AWS upload
    */
-  async upload(fileStream: Readable, fileName: string) {
+  async upload(fileStream: Readable, fileName: string, folder?: string) {
+    const key = folder ? `${folder}/${fileName}` : fileName;
     const target = {
       Bucket: this.destination,
-      Key: fileName,
+      Key: key,
       Body: fileStream
     }
 
