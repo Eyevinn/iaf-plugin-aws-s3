@@ -33,7 +33,7 @@ Default plugin export. This class is plug-and-play with the Ingest Application F
 ### Methods
 `constructor(s3Bucket: string, logger: winston.Logger)`
 
-Creates a new `AWSUploadModule` object. You need to provide the unique part your mediaconvert endpoint URL, which AWS region it is running in, as well as the name of your ingest and output buckets. You will also need to provide a role ARN, as well as the base name of the generated playlist. A winston logger is also needed. These parameters are used to initialize the sub-modules.
+Creates a new `AWSUploadModule` object. You need to provide the name of the destination s3 bucket. Region is based on the environment variable. A winston logger is also needed. These parameters are used to initialize the sub-modules.
 
 `onFileAdd = (filePath: string, readStream: Readable)`.
 
