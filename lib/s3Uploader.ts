@@ -46,7 +46,7 @@ export class S3Uploader implements Uploader {
       })
 
       const data = await parallelUploadsToS3.done();
-      return data;
+      return {data : data, file: fileName};
     }
     catch (err) {
       this.logger.log({
