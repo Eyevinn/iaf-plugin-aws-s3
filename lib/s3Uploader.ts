@@ -41,7 +41,7 @@ export class S3Uploader implements Uploader {
       parallelUploadsToS3.on("httpUploadProgress", (progress) => {
         this.logger.log({
           level: 'info',
-          message: `Upload progress for ${fileName}: ${(progress.loaded / progress.total) * 100} %`
+          message: `Upload progress for ${fileName}: ${(progress.loaded / progress.total) * 100}%`
         })
       })
 
