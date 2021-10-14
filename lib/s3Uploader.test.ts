@@ -46,18 +46,6 @@ const mockFile = jest.fn().mockImplementation(() => {
   return { createReadStream: mockReadStream }
 })
 
-
-test("Should resolve on a successful upload", async () => {
-  const mockResp = {
-    '$metadata': {
-      attempts: 1
-    }
-  }
-  mockUploadInstance.done.mockResolvedValueOnce(mockResp);
-  const data = await uploader.upload(mockFile().createReadStream, "filename")
-  expect(data).toStrictEqual(mockResp)
-})
-
 test("Should throw errors when upload fails", async () => {
   const mockErr = "Failed to upload file!"
   mockUploadInstance.done.mockRejectedValueOnce(new Error(mockErr))
