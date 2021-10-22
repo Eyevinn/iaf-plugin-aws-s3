@@ -46,10 +46,13 @@ const mockFile = jest.fn().mockImplementation(() => {
   return { createReadStream: mockReadStream }
 })
 
-test("Should throw errors when upload fails", async () => {
+test("Should return null when upload fails", async () => {
   const mockErr = "Failed to upload file!"
   mockUploadInstance.done.mockRejectedValueOnce(new Error(mockErr))
-  await expect(uploader.upload(mockFile().createReadStream, "filename"))
-  .rejects
-  .toThrow(mockErr)
+  const resp = await uploader.upload(mockFile().createReadStream, "filename");
+
+  console.log(JSON.stringify(resp));
+
+  expect(resp.file).toEqual("filename");
+  expect(resp.data).toBeNull();
 })

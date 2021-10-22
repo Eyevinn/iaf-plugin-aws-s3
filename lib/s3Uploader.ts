@@ -22,17 +22,16 @@ export class S3Uploader implements Uploader {
    * Uploads a file to the destination bucket
    * @param fileStream a Readable stream of the file to upload
    * @param fileName the name of the uploaded file (this will be the S3 key)
-   * @returns status report from the AWS upload
+   * @returns status report from the AWS upload or null if there was an error
    */
   async upload(fileStream: Readable, fileName: string, folder?: string) {
-    const key = folder ? `${folder}/${fileName}` : fileName;
-    const target = {
-      Bucket: this.destination,
-      Key: key,
-      Body: fileStream
-    }
-
     try {
+      const key = folder ? `${folder}/${fileName}` : fileName;
+      const target = {
+        Bucket: this.destination,
+        Key: key,
+        Body: fileStream
+      };
       const parallelUploadsToS3 = new Upload({
         client: new S3({}) || new S3Client({}),
         params: target
@@ -51,9 +50,9 @@ export class S3Uploader implements Uploader {
     catch (err) {
       this.logger.log({
         level: 'error',
-        message: `Failed to upload ${fileName}`
+        message: `Failed to upload ${fileName} Error: ${err}`
       });
-      throw err;
+      return {data : null, file: fileName};
     }
   }
 }
