@@ -52,7 +52,7 @@ export class S3Uploader implements Uploader {
         level: 'error',
         message: `Failed to upload ${fileName} Error: ${err}`
       });
-      return {data : null, file: null};
+      return {data : null, file: fileName};
     }
   }
 }
