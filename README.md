@@ -28,28 +28,32 @@ fileWatcher.onAdd(awsUploader.onFileAdd);
 # Plugin Documentation
 
 ## `AWSUploadModule`
+
 Default plugin export. This class is plug-and-play with the Ingest Application Framework, as described in the previous section.
 
 ### Methods
+
 `constructor(s3Bucket: string, logger: winston.Logger)`
 
 Creates a new `AWSUploadModule` object. You need to provide the name of the destination s3 bucket. Region is based on the environment variable. A winston logger is also needed. These parameters are used to initialize the sub-modules.
 
-`onFileAdd = (filePath: string, readStream: Readable)`.
+`onFileAdd = (filePath: string, readStream: Readable, contentType?: string)`.
 
-Method that is executed when a file is added to the directory being watched. `filePath` is the full path to the added file, and `readStream` is a `Readable` stream of the file data. Any file watcher plugins are *required* to provide these. The method uploads the file to the `s3Bucket` specified in the constructor.
+Method that is executed when a file is added to the directory being watched. `filePath` is the full path to the added file, and `readStream` is a `Readable` stream of the file data. Any file watcher plugins are *required* to provide these. The method uploads the file to the `s3Bucket` specified in the constructor. An optional parameter `contentType` can also be provided that specifies the content type of the file to be uploaded.
 
 ## `S3Uploader`
+
 Sub-module that handles uploading files to ingest S3 bucket. It's built on top of `@aws-sdk/lib-storage` in order to upload large files, which is essential for video.
 
 ### Methods
+
 `constructor(destination: string, logger: winston.Logger)`
 
 Instantiates a new `S3Uploader`. `destination` is the name of the S3 bucket (the same as `s3Bucket` in the `AWSUploadModule` constructor). `logger` is injected into the object, in order to avoid multiple logger objects.
 
-`async upload(fileStream: Readable, fileName: string)`
+`async upload(fileStream: Readable, fileName: string, folder?: string, contentType?: string)`
 
-Uploads a file to S3. The file data should be provided in the form of a `Readable` stream for performance reasons. `fileName` will also be the key used in the S3 bucket.
+Uploads a file to S3. The file data should be provided in the form of a `Readable` stream for performance reasons. `fileName` will also be the key used in the S3 bucket. If the content should be uploaded to a specific folder the optional `folder` parameter should be used. An optional parameter `contentType` can also be provided that specifies the content type of the file to be uploaded.
 
 # [Contributing](CONTRIBUTING.md)
 
