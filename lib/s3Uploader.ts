@@ -22,6 +22,8 @@ export class S3Uploader implements Uploader {
    * Uploads a file to the destination bucket
    * @param fileStream a Readable stream of the file to upload
    * @param fileName the name of the uploaded file (this will be the S3 key)
+   * @param [folder] the folder to upload the file to
+   * @param [contentType] the content type of the file
    * @returns status report from the AWS upload or null if there was an error
    */
   async upload(fileStream: Readable, fileName: string, folder?: string, contentType?: string) {
