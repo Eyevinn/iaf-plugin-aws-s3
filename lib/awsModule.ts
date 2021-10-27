@@ -25,7 +25,7 @@ export class AwsUploadModule implements IafUploadModule {
   onFileAdd = (filePath: string, readStream: Readable) => {
     this.fileName  = path.basename(filePath);
     try {
-      this.uploader.upload(readStream, this.fileName, process.env.AWS_FOLDER).then((res) => {
+      this.uploader.upload(readStream, this.fileName, process.env.AWS_FOLDER, process.env.AWS_FILE_CONTENT_TYPE).then((res) => {
         this.fileUploadedDelegate(res);
       });
     }

@@ -24,7 +24,7 @@ export class S3Uploader implements Uploader {
    * @param fileName the name of the uploaded file (this will be the S3 key)
    * @returns status report from the AWS upload or null if there was an error
    */
-  async upload(fileStream: Readable, fileName: string, folder?: string) {
+  async upload(fileStream: Readable, fileName: string, folder?: string, contentType?: string) {
     try {
       const key = folder ? `${folder}/${fileName}` : fileName;
       const target = {
@@ -32,6 +32,9 @@ export class S3Uploader implements Uploader {
         Key: key,
         Body: fileStream
       };
+      if (contentType) {
+        target["ContentType"] = contentType;
+      }
       const parallelUploadsToS3 = new Upload({
         client: new S3({}) || new S3Client({}),
         params: target
