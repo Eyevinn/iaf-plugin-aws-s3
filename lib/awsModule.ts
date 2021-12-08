@@ -1,15 +1,16 @@
 import winston from "winston";
 import * as path from 'path'
-import { IafUploadModule } from './types/interfaces'
 import { S3Uploader } from "./s3Uploader";
 import { Readable } from "stream";
+import { IafUploadModule } from "eyevinn-iaf";
 
 export class AwsUploadModule implements IafUploadModule {
   logger: winston.Logger;
   fileName: string;
+  playlistName: string;
   uploader: S3Uploader;
-  fileUploadedDelegate: Function;
-
+  fileUploadedDelegate: (result: any) => any;
+  progressDelegate: (progress: number) => any;
 
   constructor(s3Bucket: string, logger: winston.Logger) {
     this.logger = logger;
