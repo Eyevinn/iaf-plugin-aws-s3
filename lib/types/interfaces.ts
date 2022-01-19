@@ -4,7 +4,7 @@ import { Logger } from "eyevinn-iaf";
 export interface Uploader {
     destination: string;
     logger: Logger;
-    upload(fileStream: Readable, fileName: string)
+    upload(fileStream: Readable, fileName: string, folder?: string, contentType?: string): any;
 }
 
 export interface TranscodeDispatcher {
