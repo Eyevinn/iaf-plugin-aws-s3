@@ -44,5 +44,8 @@
     "@aws-sdk/client-s3": "^3.26.0",
     "@aws-sdk/lib-storage": "^3.27.0",
     "@types/eyevinn-iaf": "^1.0.2"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }
