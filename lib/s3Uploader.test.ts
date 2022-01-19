@@ -1,9 +1,9 @@
 import { S3Uploader } from "./s3Uploader";
 import { Readable } from "stream";
 
-import { ILogger } from "./types/interfaces";
+import { Logger } from "eyevinn-iaf";
 
-class Log implements ILogger {
+class Log implements Logger {
   info(message: string) {
     console.log("info:", message);
   }

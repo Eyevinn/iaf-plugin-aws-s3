@@ -1,18 +1,17 @@
-import { ILogger } from './types/interfaces';
 import * as path from 'path'
 import { S3Uploader } from "./s3Uploader";
 import { Readable } from "stream";
-import { IafUploadModule } from "eyevinn-iaf";
+import { IafUploadModule, Logger } from "eyevinn-iaf";
 
 export class AwsUploadModule implements IafUploadModule {
-  logger: ILogger;
+  logger: Logger;
   fileName: string;
   playlistName: string;
   uploader: S3Uploader;
   fileUploadedDelegate: (result: any) => any;
   progressDelegate: (progress: number) => any;
 
-  constructor(s3Bucket: string, logger: ILogger) {
+  constructor(s3Bucket: string, logger: Logger) {
     this.logger = logger;
     this.uploader = new S3Uploader(s3Bucket, this.logger);
   }

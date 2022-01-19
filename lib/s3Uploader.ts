@@ -2,7 +2,7 @@ import { Uploader } from "./types/interfaces";
 import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client, S3 } from "@aws-sdk/client-s3";
 import { Readable } from "stream";
-import { ILogger } from "./types/interfaces";
+import { Logger } from "eyevinn-iaf";
 
 
 /**
@@ -11,9 +11,9 @@ import { ILogger } from "./types/interfaces";
  */
 export class S3Uploader implements Uploader {
   destination: string;
-  logger: ILogger;
+  logger: Logger;
 
-  constructor(destination: string, logger: ILogger) {
+  constructor(destination: string, logger: Logger) {
     this.destination = destination;
     this.logger = logger;
   }
