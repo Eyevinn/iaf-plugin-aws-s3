@@ -1,50 +1,46 @@
 import { S3Uploader } from "./s3Uploader";
 import { Readable } from "stream";
 
-const mockLogInstance = {
-  debug: jest.fn(),
-  log: jest.fn()
+import { ILogger } from "./types/interfaces";
+
+class Log implements ILogger {
+  info(message: string) {
+    console.log("info:", message);
+  }
+  verbose(message: string) {
+    console.log("verbose:", message);
+  }
+  warn(message: string) {
+    console.log("warn", message);
+  }
+  error(message: string) {
+    console.error(message);
+  }
 }
 
-jest.mock('winston', () => ({
-  format: {
-    colorize: jest.fn(),
-    combine: jest.fn(),
-    label: jest.fn(),
-    timestamp: jest.fn(),
-    printf: jest.fn()
-  },
-  createLogger: jest.fn().mockImplementation(() => mockLogInstance),
-  transports: {
-    Console: jest.fn()
-  }
-}))
-
-import winston from 'winston'
-
-const uploader = new S3Uploader("bucket1", winston.createLogger());
+const uploader = new S3Uploader("bucket1", new Log());
 
 const mockUploadInstance = {
   done: jest.fn(),
   promise: jest.fn(),
-  on: jest.fn()
-}
+  on: jest.fn(),
+};
 
-jest.mock('@aws-sdk/lib-storage', () => {
+jest.mock("@aws-sdk/lib-storage", () => {
   return {
-    Upload: jest.fn(() => mockUploadInstance)
-  }
+    Upload: jest.fn(() => mockUploadInstance),
+  };
 });
 const mockReadStream = jest.fn().mockImplementation(() => {
   const readable = new Readable();
   readable.push("hello world!");
   readable.push(null);
   return readable;
-})
+});
 
 const mockFile = jest.fn().mockImplementation(() => {
-  return { createReadStream: mockReadStream }
-})
+  return { createReadStream: mockReadStream };
+});
 
 test("Should return null when upload fails", async () => {
   const mockErr = "Failed to upload file!"
@@ -55,4 +51,4 @@ test("Should return null when upload fails", async () => {
 
   expect(resp.file).toEqual("filename");
   expect(resp.data).toBeNull();
-})
+});

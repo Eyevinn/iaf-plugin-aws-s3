@@ -1,18 +1,18 @@
-import winston from "winston";
+import { ILogger } from './types/interfaces';
 import * as path from 'path'
 import { S3Uploader } from "./s3Uploader";
 import { Readable } from "stream";
 import { IafUploadModule } from "eyevinn-iaf";
 
 export class AwsUploadModule implements IafUploadModule {
-  logger: winston.Logger;
+  logger: ILogger;
   fileName: string;
   playlistName: string;
   uploader: S3Uploader;
   fileUploadedDelegate: (result: any) => any;
   progressDelegate: (progress: number) => any;
 
-  constructor(s3Bucket: string, logger: winston.Logger) {
+  constructor(s3Bucket: string, logger: ILogger) {
     this.logger = logger;
     this.uploader = new S3Uploader(s3Bucket, this.logger);
   }
@@ -31,10 +31,7 @@ export class AwsUploadModule implements IafUploadModule {
       });
     }
     catch (err) {
-      this.logger.log({
-        level: "error",
-        message: `Error when attempting to process file: ${this.fileName}. Full error: ${err}`,
-      });
+      this.logger.error(`Error when attempting to process file: ${this.fileName}. Full error: ${err}`);
     }
   }
 }

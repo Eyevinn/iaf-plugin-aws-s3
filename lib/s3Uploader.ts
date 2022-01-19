@@ -2,7 +2,7 @@ import { Uploader } from "./types/interfaces";
 import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client, S3 } from "@aws-sdk/client-s3";
 import { Readable } from "stream";
-import winston from "winston";
+import { ILogger } from "./types/interfaces";
 
 
 /**
@@ -11,9 +11,9 @@ import winston from "winston";
  */
 export class S3Uploader implements Uploader {
   destination: string;
-  logger: winston.Logger;
+  logger: ILogger;
 
-  constructor(destination: string, logger: winston.Logger) {
+  constructor(destination: string, logger: ILogger) {
     this.destination = destination;
     this.logger = logger;
   }
@@ -43,20 +43,14 @@ export class S3Uploader implements Uploader {
       })
 
       parallelUploadsToS3.on("httpUploadProgress", (progress) => {
-        this.logger.log({
-          level: 'info',
-          message: `Upload progress for ${fileName}: ${(progress.loaded / progress.total) * 100}%`
-        })
+        this.logger.info(`Upload progress for ${fileName}: ${(progress.loaded / progress.total) * 100}%`)
       })
 
       const data = await parallelUploadsToS3.done();
       return {data : data, file: fileName};
     }
     catch (err) {
-      this.logger.log({
-        level: 'error',
-        message: `Failed to upload ${fileName} Error: ${err}`
-      });
+      this.logger.error(`Failed to upload ${fileName} Error: '${err}'`);
       return {data : null, file: fileName};
     }
   }
