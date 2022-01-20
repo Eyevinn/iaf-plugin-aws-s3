@@ -1,9 +1,9 @@
 import { Readable } from "stream";
-import winston from "winston";
+import { Logger } from "eyevinn-iaf";
 
 export interface Uploader {
     destination: string;
-    logger: winston.Logger;
+    logger: Logger;
     upload(fileStream: Readable, fileName: string, folder?: string, contentType?: string): any;
 }
 
@@ -11,7 +11,7 @@ export interface TranscodeDispatcher {
     encodeParams: any;
     inputLocation: string;
     outputDestination: string;
-    logger: winston.Logger;
+    logger: Logger;
     playlistName: string;
     dispatch(fileName: string): Promise<any>;
 }
