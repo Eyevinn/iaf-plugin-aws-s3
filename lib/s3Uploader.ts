@@ -51,7 +51,7 @@ export class S3Uploader implements Uploader {
     }
     catch (err) {
       this.logger.error(`Failed to upload ${fileName} Error: '${err}'`);
-      return {data : null, file: fileName};
+      return {data : null, file: fileName, error: err};
     }
   }
 }

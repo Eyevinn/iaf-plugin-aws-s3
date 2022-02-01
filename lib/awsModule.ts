@@ -8,7 +8,7 @@ export class AwsUploadModule implements IafUploadModule {
   fileName: string;
   playlistName: string;
   uploader: S3Uploader;
-  fileUploadedDelegate: (result: any) => any;
+  fileUploadedDelegate: (result: any, error?: any) => any;
   progressDelegate: (progress: number) => any;
 
   constructor(s3Bucket: string, logger: Logger) {
@@ -26,7 +26,11 @@ export class AwsUploadModule implements IafUploadModule {
     this.fileName  = path.basename(filePath);
     try {
       this.uploader.upload(readStream, this.fileName, process.env.AWS_FOLDER, contentType).then((res) => {
-        this.fileUploadedDelegate(res);
+        if ('error' in res) {
+          this.fileUploadedDelegate(res, res.error);
+        } else {
+          this.fileUploadedDelegate(res);
+        }
       });
     }
     catch (err) {

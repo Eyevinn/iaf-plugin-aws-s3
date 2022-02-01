@@ -33,7 +33,7 @@ Default plugin export. This class is plug-and-play with the Ingest Application F
 
 ### Methods
 
-`constructor(s3Bucket: string, logger: winston.Logger)`
+`constructor(s3Bucket: string, logger: Logger)`
 
 Creates a new `AWSUploadModule` object. You need to provide the name of the destination s3 bucket. Region is based on the environment variable. A winston logger is also needed. These parameters are used to initialize the sub-modules.
 
@@ -47,7 +47,7 @@ Sub-module that handles uploading files to ingest S3 bucket. It's built on top o
 
 ### Methods
 
-`constructor(destination: string, logger: winston.Logger)`
+`constructor(destination: string, logger: Logger)`
 
 Instantiates a new `S3Uploader`. `destination` is the name of the S3 bucket (the same as `s3Bucket` in the `AWSUploadModule` constructor). `logger` is injected into the object, in order to avoid multiple logger objects.
 
@@ -66,4 +66,3 @@ Eyevinn Technology is an independent consultant firm specialized in video and st
 At Eyevinn, every software developer consultant has a dedicated budget reserved for open source development and contribution to the open source community. This give us room for innovation, team building and personal competence development. And also gives us as a company a way to contribute back to the open source community.
 
 Want to know more about Eyevinn and how it is to work here. Contact us at work@eyevinn.se!
-
